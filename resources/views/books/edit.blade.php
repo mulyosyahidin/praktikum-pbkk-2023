@@ -1,41 +1,65 @@
-<form action="{{ route('books.update', $book->id) }}" method="POST">
-    @csrf
-    @method('PUT')
+@extends('layouts.master')
+@section('title', $book->title . ' - Edit Buku')
 
-    <div>
-        Judul buku:
-        <input type="text" name="title" value="{{ old('title', $book->title) }}" />
+@section('content')
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between">
+                <h1 class="subheader">Edit Buku</h1>
 
-        <br>
+                <a href="{{ route('books.show', $book) }}" class="btn btn-primary btn-rounded btn-sm btn-30">Kembali</a>
+            </div>
 
-        @error('title')
-            <p>{{ $message }}</p>
-        @enderror
-    </div>
+            <form action="{{ route('books.update', $book) }}" method="post">
+                @csrf
+                @method('PUT')
 
-    <div>
-        Penulis:
-        <input type="text" name="author" value="{{ old('author', $book->author) }}" />
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h4 class="semibold">Data Buku</h4>
 
-        <br>
+                        <div class="form-group mb-3">
+                            <label for="title" class="mb-2">Judul</label>
+                            <input type="text" name="title" value="{{ old('title', $book->title) }}" id="title"
+                                class="form-control form-control-lg @error('title') is-invalid @enderror"
+                                required="required">
 
-        @error('author')
-            <p>{{ $message }}</p>
-        @enderror
-    </div>
+                            @error('title')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
 
-    <div>
-        Deskripsi:
-        <textarea name="description">{{ old('description', $book->description) }}</textarea>
+                        <div class="form-group mb-3">
+                            <label for="author" class="mb-2">Penulis</label>
+                            <select name="author_id" id="author" class="form-control form-control-lg">
+                                <option selected disabled>Pilih Penulis</option>
+                                @foreach ($authors as $author)
+                                    <option value="{{ $author->id }}" @if (old('author_id', $book->author_id)) selected @endif>
+                                        {{ $author->name }}</option>
+                                @endforeach
+                            </select>
 
-        <br>
+                            @error('email')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
 
-        @error('description')
-            <p>{{ $message }}</p>
-        @enderror
-    </div>
+                        <div class="form-group">
+                            <label for="description" class="mb-2">Deskripsi</label>
+                            <textarea name="description" id="description"
+                                class="form-control form-control-lg @error('description') is-invalid @endif">{{ old('description', $book->description) }}</textarea>
 
-    <div>
-        <input type="submit" value="Simpan">
-    </div>
-</form>
+                            @error('description')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="card-footer
+                                d-flex justify-content-end">
+                            <input type="submit" value="Simpan" class="btn btn-primary">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+@endsection

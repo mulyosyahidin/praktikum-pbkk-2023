@@ -10,7 +10,7 @@ class BookController extends Controller
 {
     public function index()
     {
-        $books = Book::all();
+        $books = Book::paginate();
 
         return view('books.index', compact('books'));
     }
@@ -24,26 +24,17 @@ class BookController extends Controller
 
     public function store(Request $request)
     {
-        //1. validasi
         $request->validate([
             'title' => 'required|max:255|unique:books,title',
             'author_id' => 'required',
             'description' => 'nullable',
         ]);
 
-        //2. masukan data ke database
-        $book = new Book();
+        Book::create($request->all());
 
-        $book->title = $request->title;
-        $book->author_id = $request->author_id;
-        $book->description = $request->description;
-
-        $book->save();
-
-        //3. redirect
         return redirect()
             ->route('books.index')
-            ->with('pesan', 'Data berhasil disimpan');
+            ->with('success', 'Berhasil menambah data buku');
     }
 
     public function show(Book $book)
@@ -53,29 +44,24 @@ class BookController extends Controller
 
     public function edit(Book $book)
     {
-        return view('books.edit', compact('book'));
+        $authors = Author::all();
+
+        return view('books.edit', compact('book', 'authors'));
     }
 
     public function update(Request $request, Book $book)
     {
-        //1. validasi
         $request->validate([
             'title' => 'required|max:255|unique:books,title,' . $book->id,
-            'author' => 'required|max:255',
+            'author_id' => 'required|max:255',
             'description' => 'nullable',
         ]);
 
-        //2. update
-        $book->title = $request->title;
-        $book->author = $request->author;
-        $book->description = $request->description;
+        $book->update($request->all());
 
-        $book->save();
-
-        //3. redirect
         return redirect()
-            ->route('books.index')
-            ->with('pesan', 'Data berhasil diupdate');
+            ->route('books.show', $book)
+            ->with('success', 'Berhasil memperbarui data buku');
     }
 
     public function destroy(Book $book)
@@ -84,6 +70,6 @@ class BookController extends Controller
 
         return redirect()
             ->route('books.index')
-            ->with('pesan', 'Data berhasil dihapus');
+            ->with('success', 'Berhasil menghapus data buku');
     }
 }

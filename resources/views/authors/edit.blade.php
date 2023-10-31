@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', $author->name .' - Edit Penulis')
+@section('title', $author->name . ' - Edit Penulis')
 
 @section('content')
     <div class="row">
@@ -7,7 +7,7 @@
             <div class="d-flex justify-content-between">
                 <h1 class="subheader">Edit Penulis</h1>
 
-                <a href="{{ route('authors.index') }}" class="btn btn-primary btn-rounded btn-sm btn-30">Kembali</a>
+                <a href="{{ route('authors.show', $author) }}" class="btn btn-primary btn-rounded btn-sm btn-30">Kembali</a>
             </div>
 
             <form action="{{ route('authors.update', $author) }}" method="post">
@@ -42,18 +42,20 @@
 
                         <div class="form-group">
                             <label for="address" class="mb-2">Alamat</label>
-                            <textarea name="address" id="address" class="form-control form-control-lg">{{ old('address', $author->address) }}</textarea>
+                            <textarea name="address" id="address"
+                                class="form-control form-control-lg @error('address') is-invalid @endif">{{ old('address', $author->address) }}</textarea>
 
                             @error('address')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
-                    <div class="card-footer d-flex justify-content-end">
-                        <input type="submit" value="Simpan" class="btn btn-primary">
+                    <div class="card-footer
+                                d-flex justify-content-end">
+                            <input type="submit" value="Simpan" class="btn btn-primary">
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
-    </div>
 @endsection

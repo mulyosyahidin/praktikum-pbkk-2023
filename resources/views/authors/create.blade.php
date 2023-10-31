@@ -41,7 +41,7 @@
 
                         <div class="form-group">
                             <label for="address" class="mb-2">Alamat</label>
-                            <textarea name="address" id="address" class="form-control form-control-lg">{{ old('address') }}</textarea>
+                            <textarea name="address" id="address" class="form-control form-control-lg @error('address') is-invalid @endif">{{ old('address') }}</textarea>
 
                             @error('address')
                                 <div class="invalid-feedback">{{ $message }}</div>
