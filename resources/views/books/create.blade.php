@@ -14,7 +14,11 @@
 
     <div>
         Penulis:
-        <input type="text" name="author" value="{{ old('author') }}" />
+        <select name="author_id">
+            @foreach ($authors as $author)
+                <option value="{{ $author->id }}">{{ $author->name }}</option>
+            @endforeach
+        </select>
 
         <br>
 

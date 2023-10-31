@@ -11,7 +11,7 @@
     <div>
         Judul: {{ $book->title }}
         <br>
-        Penulis: {{ $book->author }}
+        Penulis: {{ $book->author->name ?? 'Tidak ada penulis' }}
         <br>
         Deskripsi: {{ $book->description }}
         <br>

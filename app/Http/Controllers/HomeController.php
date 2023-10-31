@@ -8,10 +8,6 @@ class HomeController extends Controller
 {
     public function index()
     {
-        echo 'Ini adalah controller HomeController method index';
-    }
-
-    public function abc() {
-        echo 'Ini adalah controller HomeController method abc';
+        return view('welcome');
     }
 }
